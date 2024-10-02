@@ -96,9 +96,22 @@ To sign into your environment:
 9. Choose the **Session Manager** tab and then click the **Connect** button.
     1. !["connect"](instruction-images/connect.png)
     2. If you dont see the **Connect** button enabled you are probabbly trying to access some other attendee's jumpbox.
-10. Once your terminal window opens type `sudo bash` then `cd ~` (as all of our workshop content is pre-installed in the root user's home directory)
-    1. **NOTE:** if you close and re-open the Session Manager Session/Terminal window then you'll need to rerun those two commands to return to the root user and its home directory.
-11. Type `kubectl get pods -A` and you'll see a list of all the running Pods in your EKS cluster.
+10. Once your terminal window opens type:
+
+    ```bash
+    sudo bash
+    cd ~
+    ```
+
+    - As all of our workshop content is pre-installed in the root user's home directory
+    - **NOTE:** if you close and re-open the Session Manager Session/Terminal window then you'll need to rerun those two commands to return to the root user and its home directory.
+11. Type:
+
+    ```bash
+    kubectl get pods -A
+    ```
+
+    You'll see a list of all the running Pods in your EKS cluster.
 
 > **NOTE**: Even though we will refer you to a few example files on GitHub throughout the workshop, everything you need to run has already been pre-installed onto the jumpbox in `/root`. You don't need to copy/paste or `git clone` anything from GitHub today.
 
@@ -107,7 +120,7 @@ To sign into your environment:
 You'll have received a login and password for Sysdig from the facilitator. To sign into your environment:
 
 1. Open a web browser and go to <https://sysdig.com>
-2. Under the Log In dropdown on the top right of the page choose ["$YOUR_SYSDIG_ACCOUNT_REGION"](#know-your-sysdig-region) under **Sysdig Secure** (NOTE: not Sysdig Monitor which we won't be looking at today)
+2. Under the Log In dropdown on the top right of the page choose ["$YOUR_SYSDIG_ACCOUNT_REGION"](#know-your-sysdig-region) (US-East, EU-Central, ...) under **Sysdig Secure** (NOTE: not Sysdig Monitor which we won't be looking at today)
     1. !["sysdiglogin"](instruction-images/sysdiglogin.png)
 3. Enter the email address and password you were provided for Sysdig and click the **Log in** button
 4. If you see the Customize your Sysdig experience screen, then click the **Get into Sysdig** button in the lower right hand corner to take you through to the **Home** screen
@@ -137,59 +150,72 @@ In addition to our 'traditional' Rules/Policies-based approach, there are three 
 
 1. In the Sysdig UI hover over **Threats** on the left-hand side and click on Kubernetes under Activity
     1. Pick the three hour time range (3H) on the bottom to show only the events you are about to generate. This should start out as empty.
-1. So lets's generate some Events!
+2. So lets's generate some Events!
     1. Click this link to open the (simple yet insecure) code for the security-playground service on your cluster in a new tab - <https://github.com/sysdiglabs/kraken-hunter-example-scenarios/blob/main/docker-build-security-playground/app.py>
-        1. This Python app serves a **very** insecure REST API that will return the contents of any file on the filesystem, write any file to the filesystem and/or execute any file on the filesystem in response to simple **curl** commands
-            1. And you can combine them to download/write a file then execute it for example
-        1. This is simulating a very bad remote code execution (RCE) vulnerability - which could be either with your own code or in a package it uses (e.g. Log4J, Struts, etc.)
-            1. As it is detecting what happens when any such vulnerability is being exploited - no matter what or how - that we're interested in here
-    1. Go back to the the Session Manager terminal browser tab for your jumpbox
-    1. Type `cat ./example-curls.sh` to have a look at a script with some example **curl** commands we are going to run against the security-playground service:
-        1. Reading the sensitive path **/etc/shadow**
-        1. Writing a file to **/bin** then **chmod +x**'ing it and running it
-        1. Installing **nmap** from **apt** and then running a network scan
-        1. Running the **nsenter** command to 'break out' of our container Linux namespace to the host
-        1. Running the **crictl** command against the container runtime for the Node (bypassing Kubernetes and the Kubelet to manage it directly)
-        1. Using the **crictl** command to grab a Kubernetes secret from another Pod on the same Node (that was decrypted to an environment variable there at runtime)
-        1. Using the **crictl** command to run the Postgres CLI **psql** within another Pod on the same Node to exfiltrate some sensitive data
-        1. Using the Kubernetes CLI **kubectl** to launch another nefarious workload (leveraging our over-provisioned Kubernetes ServiceAccount that for security-playground)
-        1. Running a **curl** command against the AWS EC2 Instance Metadata endpoint for the Node from the security-playground Pod
-        1. Finally run the xmrig crypto miner
-    1. Go ahead and run that script by typing `./example-curls.sh` and watch all the output that is returned from the attacker's perspective.
-    1. Note that the Pod is actually killed a little while into the mining triggered by the last curl because the crypto miner (xmrig) tries to use more memory than the limit set for this container (showing another reason it is a good idea to place such limits in your PodSpecs!)
-    1. Then go back to the Sysdig UI tab and refresh that tab in your browser
+        - This Python app serves a **very** insecure REST API that will return the contents of any file on the filesystem, write any file to the filesystem and/or execute any file on the filesystem in response to simple **curl** commands
+            - And you can combine them to download/write a file then execute it for example
+        - This is simulating a very bad remote code execution (RCE) vulnerability - which could be either with your own code or in a package it uses (e.g. Log4J, Struts, etc.)
+            - As it is detecting what happens when any such vulnerability is being exploited - no matter what or how - that we're interested in here
+    2. Go back to the the Session Manager terminal browser tab for your jumpbox
+    3. Type
+
+        ```bash
+        sudo bash; cd ~
+        cat ./01-01-example-curls.sh
+        ```
+
+        to have a look at a script with some example **curl** commands we are going to run against the security-playground service:
+        1. Reading the sensitive path `/etc/shadow`
+        2. Writing a file to `/bin` then `chmod +x`'ing it and running it
+        3. Installing **nmap** from **apt** and then running a network scan
+        4. Running the **nsenter** command to 'break out' of our container Linux namespace to the host
+        5. Running the **crictl** command against the container runtime for the Node (bypassing Kubernetes and the Kubelet to manage it directly)
+        6. Using the **crictl** command to grab a Kubernetes secret from another Pod on the same Node (that was decrypted to an environment variable there at runtime)
+        7. Using the **crictl** command to run the Postgres CLI **psql** within another Pod on the same Node to exfiltrate some sensitive data
+        8. Using the Kubernetes CLI **kubectl** to launch another nefarious workload (leveraging our over-provisioned Kubernetes ServiceAccount that for security-playground)
+        9. Running a **curl** command against the AWS EC2 Instance Metadata endpoint for the Node from the security-playground Pod
+        10. Finally run the xmrig crypto miner
+    4. Go ahead and run that script by typing:
+
+        ```bash
+        ./01-01-example-curls.sh
+        ```
+
+        and watch all the output that is returned from the attacker's perspective
+    5. Note that the Pod is actually killed a little while into the mining triggered by the last curl because the crypto miner (xmrig) tries to use more memory than the limit set for this container (showing another reason it is a good idea to place such limits in your PodSpecs!)
+    6. Then go back to the Sysdig UI tab and refresh that tab in your browser
         1. You'll see a circular visualisation/heatmap of which clusters, namespaces and Pods the runtime events we've seen are coming from on the left
-        1. And it also gives you either a summary of those events in the **Summary** tab or a full timeline of them in the **Events** tab on the right
-        1. !["threats"](instruction-images/threats.png)
-    1. Choose the Events tab on the right
-    1. As you can see there are a number of events that Sysdig picked up here - in real-time!
+        2. And it also gives you either a summary of those events in the **Summary** tab or a full timeline of them in the **Events** tab on the right
+        !["threats"](instruction-images/threats.png)
+    7. Choose the Events tab on the right
+    8. As you can see there are a number of events that Sysdig picked up here - in real-time!
         1. !["threats2"](instruction-images/threats2.png)
-    1. If you click into the the top **Detect outbound connections to common miner pools** and then scroll through it you'll see all the context of that event including details of the process, the network, the AWS account, the Kubernetes cluster/namespace/deployment, the host as well as the container
+    9. If you click into the the top **Detect outbound connections to common miner pools** and then scroll through it you'll see all the context of that event including details of the process, the network, the AWS account, the Kubernetes cluster/namespace/deployment, the host as well as the container
        1. In particular the process tree view shows us that our Python app (gunicorn) launched a shell that launched the crypto miner xmrig - that looks suspicious!
-       1. !["processtree"](instruction-images/processtree.png)
-       1. You can also click Explore in order to see a more detailed view of this process tree and the history within this environment
-       1. !["explore"](instruction-images/explore.png)
-       1. Not only does this view show us all the other Events related to this executable (xmrig) on the right, it shows us all the other things that have been happening - the apt-get's, nmap, nsenter's, etc.
-       1. !["explore2"](instruction-images/explore2.png)
-1. Understanding these Events
+        !["processtree"](instruction-images/processtree.png)
+       2. You can also click Explore in order to see a more detailed view of this process tree and the history within this environment
+        !["explore"](instruction-images/explore.png)
+       3. Not only does this view show us all the other Events related to this executable (xmrig) on the right, it shows us all the other things that have been happening - the apt-get's, nmap, nsenter's, etc.
+        !["explore2"](instruction-images/explore2.png)
+3. Understanding these Events
     1. You should scroll down to the oldest/first Event then click into each to reveal all the detail/context of each. The things that we picked up here include:
-        1. **Read sensitive file untrusted** - reading the **/etc/shadow** file which a web service shouldn't be doing
-        1. **Drift Detection** - every time an executable was added to the container at runtime (it wasn't in the image) and then it was run
-            1. It is not best practice to make changes to containers at runtime - rather you should build a new image and redeploy the service in an immutable pattern
-        1. **Launch Package Management Process in Container** - just like with **Drift Detection**, you shouldn't be adding or updating packages in running containers with apt/yum/dnf - but instead do it in your **Dockerfile** as part of the container image build process
-        1. **Suspicious network tool downloaded and launched in container** - it is a common early step for attackers to run a scan to try to work out what network the workload they've exploited is in, and thus, what else they can get to
-        1. **The docker client is executed in a container** - this fires not just on the **docker** CLI but also other container CLIs such as **crictl** and **kubectl**.
-            1. It is unusual for a container to be trying to talk directly to the container runtime/socket on a Kubernetes cluster - and that you can is actually proof a container escape has happened!
-            1. Note that if you expand out the Process section it'll show the commands that were run such as that **psql** that was exfiltrating our data
-            1. !["psql"](instruction-images/psql.png)
-        1. **Contact EC2 Instance Metadata Service From Container** - your EKS Pods should be using other means such as [IAM Roles for Service Accounts (IRSA)](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) to interact with AWS. It going through the Node to use its credentials instead is suspicious
-        1. **Malware Detection** - we look for many malware filenames and hashes from our threat feeds - including crypto miners such as the **xmrig** here
-            1. We can even block malware from running - as you'll see later on!
-        1. **Detect outbound connections to common miner pool ports** - we look at network traffic (at Layer 3) and when the destination are suspicious things like crypto miner pools or [Tor](https://www.torproject.org/) entry nodes
+        1. **Read sensitive file untrusted** - reading the `/etc/shadow` file which a web service shouldn't be doing
+        2. **Drift Detection** - every time an executable was added to the container at runtime (it wasn't in the image) and then it was run
+            - It is not best practice to make changes to containers at runtime - rather you should build a new image and redeploy the service in an immutable pattern
+        3. **Launch Package Management Process in Container** - just like with **Drift Detection**, you shouldn't be adding or updating packages in running containers with apt/yum/dnf - but instead do it in your **Dockerfile** as part of the container image build process
+        4. **Suspicious network tool downloaded and launched in container** - it is a common early step for attackers to run a scan to try to work out what network the workload they've exploited is in, and thus, what else they can get to
+        5. **The docker client is executed in a container** - this fires not just on the **docker** CLI but also other container CLIs such as **crictl** and **kubectl**.
+            - It is unusual for a container to be trying to talk directly to the container runtime/socket on a Kubernetes cluster - and that you can is actually proof a container escape has happened!
+            - Note that if you expand out the Process section it'll show the commands that were run such as that `psql` that was exfiltrating our data
+            - !["psql"](instruction-images/psql.png)
+        6. **Contact EC2 Instance Metadata Service From Container** - your EKS Pods should be using other means such as [IAM Roles for Service Accounts (IRSA)](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) to interact with AWS. It going through the Node to use its credentials instead is suspicious
+        7. **Malware Detection** - we look for many malware filenames and hashes from our threat feeds - including crypto miners such as the **xmrig** here
+            - We can even block malware from running - as you'll see later on!
+        8. **Detect outbound connections to common miner pool ports** - we look at network traffic (at Layer 3) and when the destination are suspicious things like crypto miner pools or [Tor](https://www.torproject.org/) entry nodes
 
 And this is only a small sample of the Rules we have out-of-the-box as part of the service!
 
-(Optional) Feel free to copy **example-curls.sh** to a new file and play with generating your own curls if you want to see whether Sysdig will pick up various other things you may want to try!
+(Optional) Feel free to copy `01-01-example-curls.sh` to a new file and play with generating your own curls if you want to see whether Sysdig will pick up various other things you may want to try!
 
 (Optional) Have a look at all our Managed Policies (go to **Policies** on the left and then **Runtime Policies**) as well as our Rules Library (go to **Policies** then expand out the **Rules** carrot menu and choose **Rules Library**). Drill down into the Falco YAML (noting that this is not a "magic black box" and you can write your own Rules and Policies). Focus on the Policies and Rules that you saw fire in our example.
 
@@ -200,12 +226,18 @@ In order for this attack to succeed many things had to be true:
 1. Our service was vulnerable to remote code execution - this could be either due to our own code being vulnerable (as was the case here) or an opensource package our app uses (from pip, npm, maven, nuget, etc.) being vulnerable
 2. Our service that we were **curl**'ing was running as **root** - so, not only could it read/write everything within the container's filesystem, but it was also root when it escaped out of the container to the host!
 3. The PodSpec had [**hostPID: true**](https://github.com/sysdiglabs/kraken-hunter-example-scenarios/blob/3da34f8429bd26b82a3ee2f052d2b654d308990f/k8s-manifests/04-security-playground-deployment.yaml#L18) as well as [privileged **securityContext**](https://github.com/sysdiglabs/kraken-hunter-example-scenarios/blob/3da34f8429bd26b82a3ee2f052d2b654d308990f/k8s-manifests/04-security-playground-deployment.yaml#L35) which allowed it to escape its container boundary (the Linux namespace it was being run in) to the host and then control that hosts's container runtime (bypassing Kubernetes and the [kubelet](https://kubernetes.io/docs/concepts/overview/components/#kubelet)). That in turn lets it control all the other containers that happened to be running on that Node. !["diagram1"](instruction-images/diagram1.png)
-    1. The **nsenter** command lets us switch Linux namespaces - which containers use to isolate us from the other containers. We can only successfully run this if we are root, have hostPID as well as a privileged security context.
-    2. The **crictl** command is like the Docker CLI but for containerd (which is the container runtime used these days by Kubernetes Nodes). We can only successfully run this if we are root as well as on the host (such as breaking out with nsenter).
-4. The attacker was able to add new executables like **nmap** and the crypto miner **xmrig** to the container at runtime and run them
+    1. The `nsenter` command lets us switch Linux namespaces - which containers use to isolate us from the other containers. We can only successfully run this if we are root, have hostPID as well as a privileged security context.
+    2. The `crictl` command is like the Docker CLI but for containerd (which is the container runtime used these days by Kubernetes Nodes). We can only successfully run this if we are root as well as on the host (such as breaking out with nsenter).
+4. The attacker was able to add new executables like `nmap` and the crypto miner `xmrig` to the container at runtime and run them
 5. The attacker was able to download those things from the Internet (because this Pod was able to reach everywhere on the Internet via its egress)
 6. The ServiceAccount for our service was over-provisioned and could call the K8s API to do things like launch other workloads (which it didn't need).
-    1. Run `kubectl get rolebindings -o yaml -n security-playground && kubectl get roles -o yaml -n security-playground` to see that the default ServiceAccount has a Role bound to it with it with the following rules/permissions:
+    - Run:
+
+        ```bash
+        kubectl get rolebindings -o yaml -n security-playground && kubectl get roles -o yaml -n security-playground
+        ```
+
+         to see that the default ServiceAccount has a Role bound to it with it with the following rules/permissions:
 
         ```yaml
         rules:
@@ -217,8 +249,8 @@ In order for this attack to succeed many things had to be true:
             - '*'
         ```
 
-    2. At least it was a Role rather than a ClusterRole - meaning it can only do things with this security-playground Namespace. But there is plenty of damage you can do with just full admin within a Namespace!
-7. The attacker was able to reach the EC2 Metadata endpoint (169.254.0.0/16),  which is intended just for the EKS Node, from within the Pod
+    - At least it was a Role rather than a ClusterRole - meaning it can only do things with this **security-playground** Namespace. But there is plenty of damage you can do with just full admin within a Namespace!
+7. The attacker was able to reach the EC2 Metadata endpoint (`169.254.0.0/16`),  which is intended just for the EKS Node, from within the Pod
 
 These are all things we can fix:
 
@@ -239,7 +271,7 @@ For each of the causes above - these are the solutions:
     1. We need to [add a user and group to use](https://github.com/sysdiglabs/kraken-hunter-example-scenarios/blob/main/docker-build-security-playground/Dockerfile-unprivileged#L3) as part of the docker build
     1. We need to [specify in the Dockerfile to run as that User by default](https://github.com/sysdiglabs/kraken-hunter-example-scenarios/blob/main/docker-build-security-playground/Dockerfile-unprivileged#L8) (note this is just the default and can be overridden at runtime - unless a restricted PSA or other admission controller blocks that)
     1. We need to put our app in a folder that user/group has permissions to read and execute (and perhaps write to as well) - [in this case we use our new user's home directory](https://github.com/sysdiglabs/kraken-hunter-example-scenarios/blob/main/docker-build-security-playground/Dockerfile-unprivileged#L9) as opposed to the original /app
-    1. There was a great talk about building least privilege containers from the recent KubeCon Europe that goes much deeper here - https://youtu.be/uouH9fsWVIE
+    1. There was a great talk about building least privilege containers from the recent KubeCon Europe that goes much deeper here - <https://youtu.be/uouH9fsWVIE>
 1. We just need to remove the insecure options from our PodSpec. But we also need to, ideally, prevent people from putting those sorts of options in them as well.
     1. There is now a feature built-in to Kubernetes (which GAed in 1.25) to enforce that they don't - [Pod Security Admission](https://kubernetes.io/docs/concepts/security/pod-security-admission/).
         1. This works by [adding labels onto each Namespace](https://kubernetes.io/docs/tasks/configure-pod-container/enforce-standards-namespace-labels/). There are two standards that it can warn about and/or enforce for you - baseline and restricted.
@@ -249,7 +281,7 @@ For each of the causes above - these are the solutions:
 1. We can block the execution of any new scripts/binaries added at runtime with Container Drift (in this case we only had it detecting not preventing Drift)
 1. We can limit the egress access of Pod(s) to the Internet via either Kubernetes NetworkPolicy (which we cover in a future Module) or by making each thing go through an explicit authenticated proxy to reach the Internet with an allow-list of what that service is able to reach etc.
 1. We can remove the Role and RoleBinding to the Kubernetes API by our default ServiceAccount that lets it have unnecessary access to to the Kubernetes API.
-1. We can either block egress access for the Pod to 169.254.0.0/16 via NetworkPolicy as described above and/or ensure a maximum of 1 hop with IDMSv2 as AWS describes in their documentation - <https://docs.aws.amazon.com/whitepapers/latest/security-practices-multi-tenant-saas-applications-eks/restrict-the-use-of-host-networking-and-block-access-to-instance-metadata-service.html>
+1. We can either block egress access for the Pod to `169.254.0.0/16` via NetworkPolicy as described above and/or ensure a maximum of 1 hop with IDMSv2 as AWS describes in their documentation - <https://docs.aws.amazon.com/whitepapers/latest/security-practices-multi-tenant-saas-applications-eks/restrict-the-use-of-host-networking-and-block-access-to-instance-metadata-service.html>
 
 ### Seeing the fixes in action
 
@@ -257,9 +289,15 @@ We have an example workload where 1-3 of **Why did this attack work** have been 
 
 You can see the original Kubernetes PodSpec [here](https://github.com/sysdiglabs/kraken-hunter-example-scenarios/blob/main/k8s-manifests/04-security-playground-deployment.yaml) and the updated one with all the required changes to pass the restricted PSA [here](https://github.com/sysdiglabs/kraken-hunter-example-scenarios/blob/main/k8s-manifests/07-security-playground-restricted-deployment.yaml).
 
-To see how our attack fares with 1-3 fixed run `./example-curls-restricted.sh` (it is the same as the last file just pointed at the different port/service for security-playground-restricted). You'll note:
+To see how our attack fares with 1-3 fixed run:
 
-- Anything that required root within the container (reading /etc/shadow, writing to /bin, installing packages from apt, etc.) fails with a **500 Internal Server Error** because our Python app didn't have permissions to do it.
+ ```bash
+ ./01-02-example-curls-restricted
+ ```
+
+(it is the same as the last file just pointed at the different port/service for security-playground-restricted). You'll note:
+
+- Anything that required root within the container (reading `/etc/shadow`, writing to `/bin`, installing packages from apt, etc.) fails with a **500 Internal Server Error** because our Python app didn't have permissions to do it.
 - Without **root**, **hostPid** and **privileged** it couldn't escape the container
 - The only things that worked were hitting the Node's EC2 Metadata endpoint and downloading/running the xmrig crypto miner into the user's home directory (where it still had rights to do so.)
 
@@ -267,7 +305,13 @@ If we also add in Sysdig enforcing that any Container Drift is prevented (that n
 
 - Go to **Policies** -> **Runtime Policies** and then look at **security-playground-restricted-nodrift** - Note that rather than just detecting drift (as in the other Namespaces) we are blocking it if the workload is in the **security-playground-restricted-nodrift** Namespace
   - And we have a another copy of our security-playground-restricted service running there on a different HostPort
-- Run **./example-curls-restricted-nodrift.sh** which runs all those same curls but against a workload that is both restricted like the last example but also has Sysdig preventing Container Drift (rather than just detecting it)
+- Run:
+
+    ```bash
+    ./01-03-example-curls-restricted-nodrift.sh 
+    ```
+
+    which runs all those same curls but against a workload that is both restricted like the last example but also has Sysdig preventing Container Drift (rather than just detecting it)
     1. If you look at the resulting Events in our Threats UI you'll see the Drift was **prevented** rather than just detected this time
     2. !["driftprevented"](instruction-images/driftprevented.png)
 
@@ -276,20 +320,39 @@ To see that:
 
 - Go to **Policies** -> **Runtime Policies** and then look at **security-playground-restricted-nomalware** - Note that rather than just detecting malware (as in the other Namespaces) we are blocking it if the workload is in the **security-playground-restricted-nomalware** Namespace
   - And we have a another copy of our security-playground-restricted service running there on a different HostPort
-- Run **./example-curls-restricted-nomalware.sh** which runs all those same curls but against a workload that is both restricted but also has Sysdig preventing malware (rather than just detecting it) (but not blocking Container Drift - as we want to show that the malware tries to run so we can block it with that)
+- Run:
+
+    ```bash
+    ./01-04-example-curls-restricted-nomalware.sh
+    ```
+
+    which runs all those same curls but against a workload that is both restricted but also has Sysdig preventing malware (rather than just detecting it) (but not blocking Container Drift - as we want to show that the malware tries to run so we can block it with that)
     1. If you look at the resulting Events in our Threats UI you'll see the Malware was **prevented** from running rather than just detected this time
     2. !["malware"](instruction-images/malware.png)
 
 So, as you can see, a combination of fixing the posture of the workload as well as Sysdig's Container Drift and Malware Detection goes a **long** way to preventing so many common attacks - even against workload with such critical vulnerabilities!
 
-One last thing you can try is to test trying to change security-playground-restricted to undermine its security like security-playground. Run the following command to try to deploy the insecure container image and PodSpec to that namespace `kubectl apply -f security-playground-test.yaml`. Note how we're warned that is not allowed in the **security-playground-restricted** Namespace due to the restricted PSA in place there. Even though it let the Deployment create - you'll note that it (actually its ReplicaSet) is unable to actually launch the Pods.
+One last thing you can try is to test trying to change security-playground-restricted to undermine its security like security-playground. Run the following command to try to deploy the insecure container image and PodSpec to that namespace:
+
+```bash
+kubectl apply -f security-playground-test.yaml
+```
+
+Note how we're warned that is not allowed in the **security-playground-restricted** Namespace due to the restricted PSA in place there. Even though it let the Deployment create - you'll note that it (actually its ReplicaSet) is unable to actually launch the Pods.
 !["psa"](instruction-images/psa.png)
 
-Run `kubectl events security-playground -n security-playground-restricted` to see the Pod creation failures.
+Run
+
+```bash
+kubectl events security-playground -n security-playground-restricted
+```
+
+to see the Pod creation failures.
 
 This is why blocking at runtime with PSAs are a bit of a blunt instrument - you should also let people know earlier/lefter in the pipeline that this is going to happen (and they need to fix the PodSpecs) rather than have them scratch their head on why their pods are not launching at run/deploy time.
 
 This table summarises our experiments in fixing this workload:
+
 |Exploit in the example-curl.sh|example-curl|security-playground|security-playground-restricted|security-playground-restricted + container drift enforcement|security-playground-restricted + malware enforcement|
 |-|-|-|-|-|-|
 |1|Reading the sensitive path /etc/shadow|allowed|blocked (by not running as root)|blocked (by not running as root)|blocked (by not running as root)|
@@ -315,8 +378,12 @@ Let's have a quick look at an AWS CloudTrail detection - and why covering both y
 
 AWS EKS has a mechanism for giving Pod's access to the AWS APIs called [IAM Roles for Service Accounts (IRSA)](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html). In short, this binds a particular service account in Kubernetes to an IAM Role in AWS - and will automatically mount credentials for using that AWS IAM role into any Pods that use that Kubernetes service account at runtime.
 
-We've prepared an IRSA mapping already - the **irsa** ServiceAccount in the **security-playground** Namespace is bound to an AWS IAM Role that has the **Action": "s3:*"** policy applied for an S3 bucket for your Attendee in this account. If you run the command below you'll see an Annotation on the ServiceAccount with the ARN of that IAM Role:
-`kubectl get serviceaccount irsa -n security-playground -o yaml`
+We've prepared an IRSA mapping already - the **irsa** ServiceAccount in the **security-playground** Namespace is bound to an AWS IAM Role that has the `"Action": "s3:*"` policy applied for an S3 bucket for your Attendee in this account. If you run the command below you'll see an Annotation on the ServiceAccount with the ARN of that IAM Role:
+
+```bash
+sudo bash; cd ~
+kubectl get serviceaccount irsa -n security-playground -o yaml
+```
 
 It has the following in-line policy - one which we commonly see which is a `*` for the s3 service (really two to cover the bucket itself as well as the contents). It is properly scoped down to a single bucket Resource, which is better than nothing, but you'll see why a `*` for this service is a bad idea.
 
@@ -363,9 +430,27 @@ You'll also note that, if you look at the trust relationships of the IAM Role in
 
 ### The Exploit
 
-If we install the AWS CLI into our container at runtime and run some commands we'll see if our Pod has been assigned an IRSA role and they succeed. There is an **example-curls-bucket-public.sh** file in `/root` - have a look at that with a `cat example-curls-bucket-public.sh` then run it with `./example-curls-bucket-public.sh`
+If we install the AWS CLI into our container at runtime and run some commands we'll see if our Pod has been assigned an IRSA role and they succeed. There is an **02-01-example-curls-bucket-public.sh** file in `/root` - have a look at it
 
-The install of the AWS CLI succeeds but the S3 changes fail as we don't have that access. We have an updated manifest for the security-playground Deployment that will use this **irsa** ServiceAccount instead of the **default** one we have been using. Apply that by running `kubectl apply -f security-playground-irsa.yaml` to apply that change. Now re-run `./example-curls-bucket-public.sh` and this time they will work!
+```bash
+sudo bash; cd ~
+cat 02-01-example-curls-bucket-public.sh
+./02-01-example-curls-bucket-public.sh
+```
+
+The install of the AWS CLI succeeds but the S3 changes fail as we don't have that access. We have an updated manifest for the security-playground Deployment that will use this **irsa** ServiceAccount instead of the **default** one we have been using. Apply that by running:
+
+```bash
+kubectl apply -f 02-cfg-security-playground-irsa.yaml
+```
+
+to apply that change. Now re-run:
+
+```bash
+./02-01-example-curls-bucket-public.sh
+```
+
+and this time they will work!
 
 If you look at this bucket in the S3 console you'll see that it (and all of its contents) is now public (and can be downloaded/exfiltrated by the attacker right from the S3 public APIs)!
 !["bucketpublic"](instruction-images/bucketpublic.png)
@@ -387,7 +472,7 @@ But on the AWS API side (go to Threats -> Cloud Activity) you'll see that the pr
 
 This IRSA example could have been prevented with:
 
-- Being more granular and least-privilege with your IRSA's policy to not use s3* and therefore allow the removal of public blocks or applying Bucket Policies (just reading/writing files etc.)
+- Being more granular and least-privilege with your IRSA's policy to not use `s3*` and therefore allow the removal of public blocks or applying Bucket Policies (just reading/writing files etc.)
   - This is where things like [Permission Boundaries](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html) and [Service Control Policies (SCPs)](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps.html) can be helpful too in ensuring that Roles don't get created that are this over-privileged.
   - !["EffectivePermissions-scp-boundary-id"](https://docs.aws.amazon.com/images/IAM/latest/UserGuide/images/EffectivePermissions-scp-boundary-id.png)
 - Enforcing Container Drift with Sysdig so the AWS CLI isn't able to be downloaded/run at runtime (as long as you also ensure it also isn't in your images)
@@ -403,22 +488,22 @@ Sysdig has an integrated solution for both (Linux) host as well as container vul
 To explore Sysdig's runtime vulnerability scanning:
 
 1. Go to the Sysdig browser tab and go to **Vulnerabilities** on the left and then **Runtime** under Findings.
-    1. This is a list of all of the running containers in your environment within the last 15 minutes as well as all the hosts/Nodes that our agent is installed on
-    1. It is automatically sorted by severity for you - so the container image on top is the most important to fix (based on the quantity and severity of the In Use vulnerabilities)
-    1. !["vuln1"](instruction-images/vuln1.png)
+    - This is a list of all of the running containers in your environment within the last 15 minutes as well as all the hosts/Nodes that our agent is installed on
+    - It is automatically sorted by severity for you - so the container image on top is the most important to fix (based on the quantity and severity of the In Use vulnerabilities)
+    !["vuln1"](instruction-images/vuln1.png)
 2. Click on the top container/vulnerability and then examine the top you'll see:
-    1. The image and tag in question - we know this is running now
-    2. The runtime context including the deployment, namespace and cluster it is running on - this is often useful in routing the remediation work to the right team(s)
-    3. !["vuln2"](instruction-images/vuln2.png)
+    - The image and tag in question - we know this is running now
+    - The runtime context including the deployment, namespace and cluster it is running on - this is often useful in routing the remediation work to the right team(s)
+    !["vuln2"](instruction-images/vuln2.png)
 3. Click the **Vulnerabilities** tab - this is a list of all of the Vulnerabilities we found in the image
-    1. !["vuln3"](instruction-images/vuln3.png)
+    !["vuln3"](instruction-images/vuln3.png)
 4. Click on one of the CVEs and note all of our details on where we learned about this vulnerability and any fixes or known exploits we know for it
-    1. !["vuln4"](instruction-images/vuln4.png)
+  !["vuln4"](instruction-images/vuln4.png)
 5. Close that vulnerability detail pane
 6. Click on the **In Use** filter button - this excludes all the vulnerabilities that we have never seen run (and therefore are much less likely to be exploitable).
 7. Click on the **Has fix** button - this excludes those vulnerabilities that do not yet have a new version with a fix available (and therefore your team can't patch them yet)
-    1. What we are left with is those vulnerabilities that are actually running (not just in the image) **and** for which there is a fix. This is a more reasonable and prioritized patching task to give somebody!
-    2. !["vuln5"](instruction-images/vuln5.png)
+    - What we are left with is those vulnerabilities that are actually running (not just in the image) **and** for which there is a fix. This is a more reasonable and prioritized patching task to give somebody!
+    !["vuln5"](instruction-images/vuln5.png)
 
 ### Pipeline vulnerability scanning
 
@@ -426,9 +511,12 @@ To scan container images for vulnerabilities before they hit a registry, much le
 
 Here are the instructions for how to install and run our vulnerability CLI scanner - <https://docs.sysdig.com/en/docs/installation/sysdig-secure/install-vulnerability-cli-scanner/>.
 
-We have already installed it on your jumpbox for you. You can run a scan of the image **logstash:7.16.1** which is an image that has Log4J in it by running the following command:
+We have already installed it on your jumpbox for you. You can run a scan of the image `logstash:7.16.1` which is an image that has Log4J in it by running the following command:
 
-`./sysdig-cli-scanner -a https://app.au1.sysdig.com logstash:7.16.1`
+```bash
+sudo bash; cd ~
+~/sysdig-cli-scanner -a $SYSDIG_SECURE_URL logstash:7.16.1
+```
 
 Not only do you get that output into your build logs for the pipeline stage, but you can also explore the results the Sysdig SaaS UI by following that link listed in the output or going to **Vulnerabilities** -> **Pipeline** in the UI. Note that this is missing the runtime context (as, since it was scanned in a pipeline, and we don't yet know that runtime context).
 
@@ -486,7 +574,8 @@ It is also possible to use the same Sysdig CLI scanner we used to scan for conta
 In order to do so you can run the following command:
 
 ```bash
-./sysdig-cli-scanner --apiurl https://app.au1.sysdig.com --iac example-scenarios/k8s-manifests/04-security-playground-deployment.yaml
+sudo bash; cd ~
+~/sysdig-cli-scanner --apiurl $SYSDIG_SECURE_URL --iac example-scenarios/k8s-manifests/04-security-playground-deployment.yaml
 ```
 
 You could add this as a stage of a pipeline or as a git merge test where, if the scan failed, it would stop the pipeline/merge until the security misconfigurations were resolved.
@@ -531,7 +620,14 @@ Sysdig's keeps track of all the network flows and works out the Kubernetes conte
 
 To explore this feature:
 
-1. Run `./example-curls-networkpolicy.sh` and see how our security-playground Pod can reach hello-server (which is running in a different Kubernetes Namespace)
+1. Run:
+
+    ```bash
+    sudo bash; cd ~
+    ./06-01-example-curls-networkpolicy.sh
+    ```
+
+    and see how our security-playground Pod can reach hello-server (which is running in a different Kubernetes Namespace)
 2. Open the Sysdig tab in your browser
 3. Go to **Network** on the left
 4. Pick your EKS cluster as well as the Namespace **hello** and the type **Service**
@@ -542,7 +638,7 @@ To explore this feature:
     3. We can also see that our **security-playground** services were connecting to the backend as well (as there was a **curl** to do so in the exploit scripts we ran)
     4. !["network2"](instruction-images/network2.png)
 6. Click the **Ingress** tab
-7. Here you can untick anything we don't want talking to our hello-server service. 
+7. Here you can untick anything we don't want talking to our hello-server service.
     1. Untick everything but **hello-client**
     2. !["network3"](instruction-images/network3.png)
 8. Click back to **Topology** and now you'll see the things we are going to block with red lines (with the only allowed/black path being to hello-client)
@@ -550,14 +646,43 @@ To explore this feature:
 9. Click **Generated Policy** and copy all the contents to your clipboard
     1. !["network5"](instruction-images/network5.png)
 10. Go back to your jumpbox terminal browser tab
-11. Run `vi policy.yaml`
-12. Type `i` to go into insert mode
-13. Paste it in there with a **Shift-Ctrl-V** on PC or a **Shift-Command-V** on Mac
-14. Press Esc to leave insert mode then type `:wq` to save and exit
-15. Type `kubectl apply -f policy.yaml` to apply it
-16. Run `./example-curls-networkpolicy.sh` again to see that it now cannot reach hello-server due to our new NetworkPolicy (it will timeout)
-17. Run `kubectl logs deployment/hello-client-blocked -n hello` to see the logs from the hello-client-blocked service showing that it too has now been blocked by the NetworkPolicy (wget: download timed out)
-18. Run `kubectl logs deployment/hello-client -n hello` to see the logs from the hello-client service showing it still **can** still reach hello-server like we intended
+11. Run the following:
+
+    ```bash
+    vi policy.yaml
+    # Type `i` to go into insert mode
+    # Paste it in there with a `Shift-Ctrl-V` on PC or a `Shift-Command-V` on Mac
+    # Press Esc to leave insert mode then type `:wq` to save and exit
+    ```
+
+12. Type the following to apply it:
+
+    ```bash
+    kubectl apply -f policy.yaml
+    ```
+
+13. Run:
+
+    ```bash
+    ./06-01-example-curls-networkpolicy.sh
+    ```
+
+    again to see that it now cannot reach hello-server due to our new NetworkPolicy (it will timeout)
+
+14. Run:
+
+    ```bash
+    kubectl logs deployment/hello-client-blocked -n hello
+    ```
+
+    to see the logs from the hello-client-blocked service showing that it too has now been blocked by the NetworkPolicy (wget: download timed out)
+15. Run:
+
+    ```bash
+    kubectl logs deployment/hello-client -n hello
+    ```
+
+    to see the logs from the hello-client service showing it still **can** still reach hello-server like we intended
 
 #### Controlling Network Egress - especially to the Internet
 
@@ -581,12 +706,28 @@ Let's look at how this could help with our insecure security-playground example 
         1. Copy and paste this into a text editor and remove the Ingress lines and then copy that now Ingress-less policy to your clipboard
     2. !["network8"](instruction-images/network8.png)
 6. Go back to your jumpbox terminal browser tab
-7. Run `vi policy2.yaml`
-   1. Type `i` to go into insert mode
-   2. Paste it in there with a **Shift-Ctrl-V** on PC or a **Shift-Command-V** on Mac
-   3. Press `Esc` to leave insert mode then type `:wq` to save and exit
-8. Type `kubectl apply -f policy2.yaml` to apply it
-9. Re-run `example-curls.sh` and note how much of what happened there this NetworkPolicy blocked
+7. Run the following:
+
+   ```bash
+   vi policy2.yaml
+   # Type `i` to go into insert mode
+   # Paste it in there with a `Shift-Ctrl-V` on PC or a `Shift-Command-V` on Mac
+   # Press `Esc` to leave insert mode then type `:wq` to save and exit
+   ```
+
+8. Run the following to apply it:
+
+    ```bash
+    kubectl apply -f policy2.yaml
+    ```
+
+9. Re-run:
+
+    ```bash
+    ./01-01-example-curls.sh
+    ```
+
+    and note how much of what happened there this NetworkPolicy blocked
     1. Note that when we broke out of our container to the host then the NetworkPolicy no longer applied (but any firewall/SecurityGroup covering the Node would have).
         1. This is another big reason we need to prevent container escapes!
 
