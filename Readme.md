@@ -292,7 +292,7 @@ You can see the original Kubernetes PodSpec [here](https://github.com/sysdiglabs
 To see how our attack fares with 1-3 fixed run:
 
  ```bash
- ./01-02-example-curls-restricted
+ ./01-02-example-curls-restricted.sh
  ```
 
 (it is the same as the last file just pointed at the different port/service for security-playground-restricted). You'll note:
