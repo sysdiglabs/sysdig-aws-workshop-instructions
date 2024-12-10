@@ -382,6 +382,7 @@ We've prepared an IRSA mapping already - the **irsa** ServiceAccount in the **se
 
 ```bash
 sudo bash; cd ~
+./set-up-irsa.sh
 kubectl get serviceaccount irsa -n security-playground -o yaml
 ```
 
