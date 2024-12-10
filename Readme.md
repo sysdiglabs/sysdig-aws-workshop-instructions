@@ -83,9 +83,9 @@ You'll have received your IAM username and password from the facilitator. This e
 To sign into your environment:
 
 1. Open a web browser and go to <https://aws.amazon.com/console/>
-2. If prompted, choose to sign in with an IAM user (as opposed to the Root user) and enter the AWS Account ID of ["$YOUR_AWS_ACCOUNT_ID"](#know-your-aws-region-and-account)
+2. If prompted, choose to sign in with an IAM user (as opposed to the Root user) and enter the AWS Account ID of ["YOUR_AWS_ACCOUNT_ID section"](#know-your-aws-region-and-account)
 3. Enter the IAM username and password you were provided and click the **Sign in** button
-4. Pick the ["$YOUR_AWS_REGION"](#know-your-aws-region-and-account) region in the drop-down in the upper right of the console
+4. Pick the ["YOUR_AWS_ACCOUNT_ID section"](#know-your-aws-region-and-account) region in the drop-down in the upper right of the console
     1. !["region-us"](instruction-images/region-us.png)
 5. Go to the EC2 service's console (you can type EC2 in the Search box on top and then click on the EC2 service in the results)
 6. Click on the **Instances (running)** link under **Resources** to be taken to a list of running EC2 Instances.
@@ -120,7 +120,7 @@ To sign into your environment:
 You'll have received a login and password for Sysdig from the facilitator. To sign into your environment:
 
 1. Open a web browser and go to <https://sysdig.com>
-2. Under the Log In dropdown on the top right of the page choose ["$YOUR_SYSDIG_ACCOUNT_REGION"](#know-your-sysdig-region) (US-East, EU-Central, ...) under **Sysdig Secure** (NOTE: not Sysdig Monitor which we won't be looking at today)
+2. Under the Log In dropdown on the top right of the page choose ["YOUR_SYSDIG_ACCOUNT_REGION section"](#know-your-sysdig-region) (US-East, EU-Central, ...) under **Sysdig Secure** (NOTE: not Sysdig Monitor which we won't be looking at today)
     1. !["sysdiglogin"](instruction-images/sysdiglogin.png)
 3. Enter the email address and password you were provided for Sysdig and click the **Log in** button
 4. If you see the Customize your Sysdig experience screen, then click the **Get into Sysdig** button in the lower right hand corner to take you through to the **Home** screen
@@ -386,7 +386,7 @@ sudo bash; cd ~
 kubectl get serviceaccount irsa -n security-playground -o yaml
 ```
 
-It has the following in-line policy - one which we commonly see which is a `*` for the s3 service (really two to cover the bucket itself as well as the contents). It is properly scoped down to a single bucket Resource, which is better than nothing, but you'll see why a `*` for this service is a bad idea.
+It has the following in-line policy (check the IAM role in the AWS console) - one which we commonly see which is a `*` for the s3 service (really two to cover the bucket itself as well as the contents). It is properly scoped down to a single bucket Resource, which is better than nothing, but you'll see why a `*` for this service is a bad idea.
 
 ```json
 {
@@ -635,14 +635,14 @@ To explore this feature:
     1. !["network1"](instruction-images/network1.png)
 5. In the right-hand pane we can see that the hello Namespace consists of:
     1. A backend that is made up of a service named hello-server and a deployment named **hello-server**
-    2. Two frontend apps called **hello-client** and **hello-client-blocked** that talk to the **hello-server** backend service
+    2. Two frontend apps called **hello-server-client** and **hello-server-client-blocked** that talk to the **hello-server** backend service
     3. We can also see that our **security-playground** services were connecting to the backend as well (as there was a **curl** to do so in the exploit scripts we ran)
     4. !["network2"](instruction-images/network2.png)
 6. Click the **Ingress** tab
 7. Here you can untick anything we don't want talking to our hello-server service.
-    1. Untick everything but **hello-client**
+    1. Untick everything but **hello-server-client**
     2. !["network3"](instruction-images/network3.png)
-8. Click back to **Topology** and now you'll see the things we are going to block with red lines (with the only allowed/black path being to hello-client)
+8. Click back to **Topology** and now you'll see the things we are going to block with red lines (with the only allowed/black path being to hello-server-client)
     1. !["network4"](instruction-images/network4.png)
 9. Click **Generated Policy** and copy all the contents to your clipboard
     1. !["network5"](instruction-images/network5.png)
@@ -673,17 +673,17 @@ To explore this feature:
 14. Run:
 
     ```bash
-    kubectl logs deployment/hello-client-blocked -n hello
+    kubectl logs deployment/hello-server-client-blocked -n hello
     ```
 
-    to see the logs from the hello-client-blocked service showing that it too has now been blocked by the NetworkPolicy (wget: download timed out)
+    to see the logs from the hello-server-client-blocked service showing that it too has now been blocked by the NetworkPolicy (wget: download timed out)
 15. Run:
 
     ```bash
-    kubectl logs deployment/hello-client -n hello
+    kubectl logs deployment/hello-server-client -n hello
     ```
 
-    to see the logs from the hello-client service showing it still **can** still reach hello-server like we intended
+    to see the logs from the hello-server-client service showing it still **can** still reach hello-server like we intended
 
 #### Controlling Network Egress - especially to the Internet
 
