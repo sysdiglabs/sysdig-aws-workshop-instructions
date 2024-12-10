@@ -335,7 +335,7 @@ So, as you can see, a combination of fixing the posture of the workload as well 
 One last thing you can try is to test trying to change security-playground-restricted to undermine its security like security-playground. Run the following command to try to deploy the insecure container image and PodSpec to that namespace:
 
 ```bash
-kubectl apply -f security-playground-test.yaml
+kubectl apply -f 01-cfg-security-playground-test.yaml
 ```
 
 Note how we're warned that is not allowed in the **security-playground-restricted** Namespace due to the restricted PSA in place there. Even though it let the Deployment create - you'll note that it (actually its ReplicaSet) is unable to actually launch the Pods.
