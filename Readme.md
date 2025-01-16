@@ -24,10 +24,11 @@ We have also provisioned a user for you within Sysdig Secure. While this Sysdig 
     - [How to fix this workload (security-playground)](#how-to-fix-this-workload-security-playground)
     - [Seeing the fixes in action](#seeing-the-fixes-in-action)
   - [Module 2 - Runtime Threat Detection and Prevention (Cloud/AWS)](#module-2---runtime-threat-detection-and-prevention-cloudaws)
-    - [AWS IAM Roles for Service Accounts (IRSA)](#aws-iam-roles-for-service-accounts-irsa)
-    - [The Exploit](#the-exploit)
-    - [The Sysdig Detections](#the-sysdig-detections)
-    - [How to prevent this attack / fix this workload](#how-to-prevent-this-attack--fix-this-workload)
+    - [Section 1 - CloudTrail Detections](#section-1---cloudtrail-detections)
+    - [Section 2 - AWS IAM Roles for Service Accounts (IRSA)](#section-2---aws-iam-roles-for-service-accounts-irsa)
+      - [The Exploit](#the-exploit)
+      - [The Sysdig Detections](#the-sysdig-detections)
+      - [How to prevent this attack / fix this workload](#how-to-prevent-this-attack--fix-this-workload)
   - [Module 3 - Host and Container Vulnerability Management](#module-3---host-and-container-vulnerability-management)
     - [Runtime Vulnerability Scanning](#runtime-vulnerability-scanning)
     - [Pipeline vulnerability scanning](#pipeline-vulnerability-scanning)
@@ -81,6 +82,8 @@ You'll have received your IAM username and password from the facilitator. This e
 !["diagram2"](instruction-images/diagram2.png)
 
 To sign into your environment:
+
+>🚨 Your AWS user is restricted to only be able to access the resources that you need access to in order to complete the workshop. You will see many warnings around lack of permissions, but this is OK as you will still be able to complete the workshop.
 
 1. Open a web browser and go to <https://aws.amazon.com/console/>
 2. If prompted, choose to sign in with an IAM user (as opposed to the Root user) and enter the AWS Account ID of ["YOUR_AWS_ACCOUNT_ID section"](#know-your-aws-region-and-account)
@@ -149,7 +152,7 @@ In addition to our 'traditional' Rules/Policies-based approach, there are three 
 ### Simulating an attack to generate Events within Sysdig
 
 1. In the Sysdig UI hover over **Threats** on the left-hand side and click on Kubernetes under Activity
-    1. Pick the three hour time range (3H) on the bottom to show only the events you are about to generate. This should start out as empty.
+    1. Pick the six hour time range (6H) on the bottom to show only the events you are about to generate. This should start out as empty.
 2. So lets's generate some Events!
     1. Click this link to open the (simple yet insecure) code for the security-playground service on your cluster in a new tab - <https://github.com/sysdiglabs/kraken-hunter-example-scenarios/blob/main/docker-build-security-playground/app.py>
         - This Python app serves a **very** insecure REST API that will return the contents of any file on the filesystem, write any file to the filesystem and/or execute any file on the filesystem in response to simple **curl** commands
@@ -190,7 +193,7 @@ In addition to our 'traditional' Rules/Policies-based approach, there are three 
     7. Choose the Events tab on the right
     8. As you can see there are a number of events that Sysdig picked up here - in real-time!
         1. !["threats2"](instruction-images/threats2.png)
-    9. If you click into the the top **Detect outbound connections to common miner pools** and then scroll through it you'll see all the context of that event including details of the process, the network, the AWS account, the Kubernetes cluster/namespace/deployment, the host as well as the container
+    9. If you click into the the top **Detect crypto miners using the Stratum protocol** and then scroll through it you'll see all the context of that event including details of the process, the network, the AWS account, the Kubernetes cluster/namespace/deployment, the host as well as the container
        1. In particular the process tree view shows us that our Python app (gunicorn) launched a shell that launched the crypto miner xmrig - that looks suspicious!
         !["processtree"](instruction-images/processtree.png)
        2. You can also click Explore in order to see a more detailed view of this process tree and the history within this environment
@@ -211,7 +214,7 @@ In addition to our 'traditional' Rules/Policies-based approach, there are three 
         6. **Contact EC2 Instance Metadata Service From Container** - your EKS Pods should be using other means such as [IAM Roles for Service Accounts (IRSA)](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) to interact with AWS. It going through the Node to use its credentials instead is suspicious
         7. **Malware Detection** - we look for many malware filenames and hashes from our threat feeds - including crypto miners such as the **xmrig** here
             - We can even block malware from running - as you'll see later on!
-        8. **Detect outbound connections to common miner pool ports** - we look at network traffic (at Layer 3) and when the destination are suspicious things like crypto miner pools or [Tor](https://www.torproject.org/) entry nodes
+        8. **DNS Lookup for Miner Pool Domain Detected** - we look at network traffic (at Layer 3) and when the destination are suspicious things like crypto miner pools or [Tor](https://www.torproject.org/) entry nodes
 
 And this is only a small sample of the Rules we have out-of-the-box as part of the service!
 
@@ -374,7 +377,23 @@ Sysdig's Runtime Threat Detection is not limited to your Linux Kernel Syscalls a
 
 Let's have a quick look at an AWS CloudTrail detection - and why covering both your EKS and AWS environments is important.
 
-### AWS IAM Roles for Service Accounts (IRSA)
+### Section 1 - CloudTrail Detections
+
+Now you have logged in with your AWS user. However, you may have noticed that you are not using Multi-Factor Authentication (MFA) to do so. In the real world, you should always use MFA to log in to your AWS account, but in this workshop you don't, simply for ease of use.
+
+But, Sysdig will detect the lack of MFA and alert you on it!
+
+1. Go to **Threats** -> **Events Feed**
+
+2. There, select **AWS** under the **Event Source** filter.
+
+!["cloudtrail-detection"](instruction-images/aws-no-mfa-alert.png)
+
+3. In the **Events Feed** pane, you'll see a couple of AWS Cloudtrail alerts. One is for the SSM session where you logged in to your bastion host, and the other is for a login with no MFA.
+
+!["cloudtrail-detection-2"](instruction-images/aws-no-mfa-alert2.png)
+
+### Section 2 - AWS IAM Roles for Service Accounts (IRSA)
 
 AWS EKS has a mechanism for giving Pod's access to the AWS APIs called [IAM Roles for Service Accounts (IRSA)](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html). In short, this binds a particular service account in Kubernetes to an IAM Role in AWS - and will automatically mount credentials for using that AWS IAM role into any Pods that use that Kubernetes service account at runtime.
 
@@ -429,7 +448,7 @@ You'll also note that, if you look at the trust relationships of the IAM Role in
 }
 ```
 
-### The Exploit
+#### The Exploit
 
 If we install the AWS CLI into our container at runtime and run some commands we'll see if our Pod has been assigned an IRSA role and they succeed. There is an **02-01-example-curls-bucket-public.sh** file in `/root` - have a look at it
 
@@ -453,12 +472,7 @@ to apply that change. Now re-run:
 
 and this time they will work!
 
-If you look at this bucket in the S3 console you'll see that it (and all of its contents) is now public (and can be downloaded/exfiltrated by the attacker right from the S3 public APIs)!
-!["bucketpublic"](instruction-images/bucketpublic.png)
-
-This is because when you assign an AWS IAM Role to a Pod via things like IRSA it means that, if somebody can break out of your app with a remote code execution vulnerability, they can do anything that IAM Role can do within the runtime context of that Pod.
-
-### The Sysdig Detections
+#### The Sysdig Detections
 
 On the host side you'll see many **Drift Detections** which will include the commands being run against AWS - and which we could have blocked rather than just detected with Container Drift. This is a good reason to not include CLIs like the AWS one in your images as well! !["s3drift"](instruction-images/s3drift.png)
 
@@ -469,7 +483,7 @@ But on the AWS API side (go to Threats -> Cloud Activity) you'll see that the pr
 
 > **NOTE**: As this is all within one region of one AWS account you'll see that, unlike the Kubernetes events, you'll see the events for the other attendees as well. While we do offer a filter based on AWS Tags (in addition to AWS account and region), unfortunately CloudTrail doesn't include the Tags of the resource(s) involved in the trail - and so it isn't currently possible to filter these down with enough granularity where you can only see your own Events. The AWS Tag filter does apply to Inventory/Compliance though.
 
-### How to prevent this attack / fix this workload
+#### How to prevent this attack / fix this workload
 
 This IRSA example could have been prevented with:
 
@@ -538,15 +552,12 @@ The Center for Internet Security (CIS) publishes a security benchmark for many c
     1. ![](instruction-images/posture1.png)
 1. There are some controls here that would have prevented our attack. 
 1. If you click into the **Show Results** link for each you'll see the list of failing resources then you can click **View Remediation** next to the **security-playground** Resource to see the Remediation instructions:
-    1. 4.2.6 Minimize the admission of root containers
-        1. Container with RunAsUser root or not set
-        2. Container permitting root
-    2. 4.2.1 Minimize the admission of privileged containers
+    1. 4.2.1 Minimize the admission of privileged containers
         1. Container running as privileged
-    3. 4.1.5 Ensure that the default service accounts are not actively used
+    2. 4.1.5 Ensure that the default service accounts are not actively used
         1. Access granted to "default" account directly
-    4. !["posture2"](instruction-images/posture2.png)
-    5. !["posture3"](instruction-images/posture3.png)
+    3. !["posture2"](instruction-images/posture2.png)
+    4. !["posture3"](instruction-images/posture3.png)
 
 If these settings for **security-playground** were configured to be passing CIS' EKS Benchmark, then it would be just like the **security-playground-unprivileged** workload which, as we saw, fared **much** better in our attack.
 
