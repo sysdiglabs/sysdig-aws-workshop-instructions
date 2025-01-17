@@ -1,6 +1,6 @@
-## Module 1 - Runtime Threat Detection and Prevention (Workload/Kubernetes)
+## Runtime Threat Detection and Prevention (Workload/Kubernetes)
 
-In our first module, we'll be exploring Sysdig's capabilities around detecting - and even preventing - runtime threats.
+In this module, we'll be exploring Sysdig's capabilities around detecting - and even preventing - runtime threats.
 
 Regardless of how an attacker gets in, they will do many of the same things - a predictable sequence of things best explained by the [MITRE ATT&CK Framework](https://attack.mitre.org/). Sysdig's threat research team runs a large fleet of honeypots around the world to learn first-hand all the things people do once they get in - and then continually updates our library of [Rules](https://docs.sysdig.com/en/docs/sysdig-secure/policies/threat-detect-policies/manage-rules/) (possible behaviors to look for) and [Managed Policies](https://docs.sysdig.com/en/docs/sysdig-secure/policies/threat-detect-policies/manage-policies/) (which Rules to look for, their severity, and what to do when we find them) on behalf of all of our customers. You can also make your own custom ([Falco](https://falco.org/)) Rules and/or Policies beyond what we offer if you'd like - this is fully transparent and based on opensource tooling/standards rather than a magic black box!
 

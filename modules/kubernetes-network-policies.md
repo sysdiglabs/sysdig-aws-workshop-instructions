@@ -1,4 +1,4 @@
-## Module 6 - Kubernetes native firewall (NetworkPolicies)
+## Kubernetes native firewall (NetworkPolicies)
 
 Kubernetes has a built-in firewall which you configure through YAML documents called [NetworkPolices](https://kubernetes.io/docs/concepts/services-networking/network-policies/). These can have rules not just based on IPs or CIDR blocks/ranges - but based on Kubernetes Namespaces and Labels. This is much more dynamic and easier to manage!
 
