@@ -6,7 +6,7 @@
 
 ### Get your attendees credentials
 
-- Your instrcutor will provide you with a `.txt` file with some credentials to the AWS console and to access your demo Sysdig account.
+- Your instructor will provide you with a `.txt` file with some credentials to the AWS console and to access your demo Sysdig account.
 
 ### Know your Sysdig region
 

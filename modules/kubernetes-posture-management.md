@@ -2,7 +2,7 @@
 
 As we learned in Module 1, it is very important that your Kubernetes/EKS clusters and the workloads on them are properly configured. This is referred to as either Posture or Compliance - as it is about your posture (all of your configuration(s) when taken together) and whether they are compliant with various standards/benchmarks.
 
-Sysdig can ensure you are compliant with many common standards such as CIS, NIST, SOC 2, PCI DSS, ISO 27001 - and many more. To see the whole current list you can go to **Policies** on the left then **Policies** again under the **Posture** heading.V
+Sysdig can ensure you are compliant with many common standards such as CIS, NIST, SOC 2, PCI DSS, ISO 27001 - and many more. To see the whole current list you can go to **Policies** on the left then **Policies** again under the **Posture** heading.
 
 The Center for Internet Security (CIS) publishes a security benchmark for many common resources - including EKS. Learn more at <https://www.cisecurity.org/benchmark/kubernetes>. We'll be looking at your cluster and its workloads to see if they are compliant with that standard in this module.
 
@@ -53,4 +53,4 @@ sudo bash; cd ~
 
 You could add this as a stage of a pipeline or as a git merge test where, if the scan failed, it would stop the pipeline/merge until the security misconfigurations were resolved.
 
-Setting up such pipeline scans
+Setting up such pipeline scans/gates is often referred to as "shifting left" (further into the development stages/lifecycle) or "DevSecOps".
