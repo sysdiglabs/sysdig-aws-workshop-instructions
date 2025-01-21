@@ -1,0 +1,35 @@
+remote_theme: just-the-docs/just-the-docs
+plugins:
+- jekyll-seo-tag
+
+title: Kraken Hunter
+description: Learn how to use Sysdig Secure
+
+logo: /assets/logo/sysdig.png
+
+color_scheme: kraken
+
+callouts:
+  goal:
+    color: sysdig-green
+    opacity: 1.0
+  highlight:
+    color: warning-orange
+  important:
+    title: Important
+    color: warning-orange
+  value:
+    title: Value
+    color: falco-blue
+  new:
+    title: New
+    color: violet
+  note:
+    title: Note
+    color: violet
+  warning:
+    title: Warning
+    color: risk-red-orange
+
+back_to_top: true
+back_to_top_text: "Back to top"
