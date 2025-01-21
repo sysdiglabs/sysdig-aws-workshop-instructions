@@ -1,0 +1,37 @@
+// Brand Colors
+$falco-blue: #00CBE2;    // R0 G203 B266
+$violet: #AE44C5;       // R174 G68 B197
+$risk-red-orange: #EA5255;  // R234 G82 B85
+$warning-orange: #FFC069;   // R255 G192 B105
+$sysdig-green: #BDF78B;
+
+// Color variations for Just the Docs
+// Alco Blue variations
+$falco-blue-000: lighten($falco-blue, 20%);  // Lighter shade
+$falco-blue-100: lighten($falco-blue, 10%);
+$falco-blue-200: $falco-blue;
+$falco-blue-300: darken($falco-blue, 10%);   // Darker shade
+
+// Violet variations
+$violet-000: lighten($violet, 20%);
+$violet-100: lighten($violet, 10%);
+$violet-200: $violet;
+$violet-300: darken($violet, 10%);
+
+// Risk Red Orange variations
+$risk-red-orange-000: lighten($risk-red-orange, 20%);
+$risk-red-orange-100: lighten($risk-red-orange, 10%);
+$risk-red-orange-200: $risk-red-orange;
+$risk-red-orange-300: darken($risk-red-orange, 10%);
+
+// Warning Orange variations
+$warning-orange-000: lighten($warning-orange, 20%);
+$warning-orange-100: lighten($warning-orange, 10%);
+$warning-orange-200: $warning-orange;
+$warning-orange-300: darken($warning-orange, 10%);
+
+// Sysdig Green variations
+$sysdig-green-000: lighten($sysdig-green, 20%);
+$sysdig-green-100: lighten($sysdig-green, 10%);
+$sysdig-green-200: $sysdig-green;
+$sysdig-green-300: darken($sysdig-green, 10%);
