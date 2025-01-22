@@ -5,7 +5,7 @@ nav_order: 2
 ---
 
 {: .goal }
->This learning path is a set of Kubernetes-specific modules that will help you understand how to use Sysdig to detect and prevent threats in your Kubernetes environments.
+>This learning path is a series of Kubernetes-specific modules that will help you understand how to use Sysdig to detect and prevent threats in your Kubernetes environments.
 
 ## Kubernetes Learning Path
 

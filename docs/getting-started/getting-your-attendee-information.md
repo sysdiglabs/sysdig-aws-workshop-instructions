@@ -7,7 +7,7 @@ nav_order: 1
 ---
 
 {: .goal }
-> This section will help you get your attendee information and credentials to access your AWS and Sysdig accounts. By the end of this section you will have the all the required information to access your AWS and Sysdig accounts.
+> This section will help you get your participant information and credentials to access your AWS and Sysdig accounts. At the end of this section you will have all the information you need to access your AWS and Sysdig accounts.
 
 1. TOC
 {:toc}

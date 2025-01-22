@@ -5,7 +5,7 @@ nav_order: 1
 ---
 
 {: .goal }
-> At the end of this module, you will understand that Sysdig can detect threats not only in hosts, but also in cloud environments, by analyzing CloudTrail logs and performing real-time analysis.
+> At the end of this module, you will understand that Sysdig can detect threats not only on hosts but also in cloud environments by analysing CloudTrail logs and performing real-time analysis.
 
 ## CloudTrail Detections
 
@@ -30,4 +30,4 @@ Sysdig will also alert you on the lack of MFA in the login event, as well as the
 You have now completed the CloudTrail detections sections of this module.
 
 {: .value }
-> Organizations often have little visibility into what their cloud environments are doing, what permissions they have and what actions are being taken with those resources. Sysdig can provide visibility and threat detection capabilities to your cloud infrastructure.
+> Organisations often have little visibility into what their cloud environments are doing, what permissions they have, and what actions are being taken with those resources. Sysdig can bring visibility and threat detection to your cloud infrastructure.

@@ -5,7 +5,7 @@ nav_order: 2
 ---
 
 {: .goal}
-> At the end of this module, you will be able to use the Sysdig UI to understand the network traffic in your Kubernetes/EKS clusters and workloads, as well as how to use NetworkPolicies to control it.
+> By the end of this module, you will be able to use the Sysdig UI to understand the network traffic in your Kubernetes/EKS clusters and workloads, and how to use NetworkPolicies to control it.
 
 1. TOC
 {:toc}
@@ -175,11 +175,11 @@ To learn more about the syntax of NetworkPolicies there is a great resource on G
 At this point you have completed this module.
 
 {: .value}
-> By implementing Kubernetes NetworkPolicies with Sysdig's visualization and policy generation capabilities, organizations can:
+> By implementing Kubernetes NetworkPolicies with Sysdig's visualisation and policy generation capabilities, organisations can:
 >
-> - Reduce security risks by automatically identifying and controlling unnecessary network access between services
-> - Prevent malicious outbound traffic like crypto mining and data exfiltration while maintaining legitimate business communications
-> - Simplify compliance requirements around network segmentation using Kubernetes-native controls
-> - Save engineering time by visualizing actual traffic patterns and auto-generating precise network policies instead of manual trial and error
-> - Maintain application reliability by clearly seeing which connections are business-critical before implementing restrictions
+> - Reduce security risks by automatically identifying and controlling unnecessary network access between services.
+> - Prevent malicious outbound traffic, such as crypto-mining and data exfiltration, while preserving legitimate business communications.
+> - Simplify compliance requirements around network segmentation with Kubernetes-native controls
+> - Save engineering time by visualising actual traffic patterns and automatically generating precise network policies instead of manual trial and error
+> - Maintain application reliability by clearly seeing which connections are business critical before implementing restrictions
 

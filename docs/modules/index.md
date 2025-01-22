@@ -5,12 +5,6 @@ nav_order: 4
 
 ## Modules
 
-The following modules are available in the Kraken Hunter training course. Your instructor will guide you through the moduels that your course will be using.
+{: .goal }
+> The modules are the building blocks of the Kraken Hunter training course. All modules are included in this directory.
 
-We will be using modules that cover:
-
-* Threat Detection
-* Vulnerability Management
-* Cloud and Kubernetes Security Posture Management
-* Prioritization and Remediation with Risks and the Sysdig Attack Path
-* And more!

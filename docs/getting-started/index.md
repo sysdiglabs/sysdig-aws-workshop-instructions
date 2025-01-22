@@ -4,7 +4,7 @@ nav_order: 3
 ---
 
 {: .goal }
->At the completion of this section, you will have access to your:
+>At the end of this section you will have access to your
 > 1. Cloud environment
 > 2. Sysdig Secure account
 
