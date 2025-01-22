@@ -5,7 +5,7 @@ nav_order: 1
 ---
 
 {: .goal }
-> In this module, we will simulate an attack on a Kubernetes workload, review what kinds of attacks we are making, as well as how Sysdig detects them.
+> In this module, we will simulate an attack on a Kubernetes workload, review the types of attacks we make, and how Sysdig detects them.
 
 1. TOC
 {:toc}
@@ -102,7 +102,7 @@ The things that we picked up here include:
 - **Contact EC2 Instance Metadata Service From Container** - your EKS Pods should be using other means such as [IAM Roles for Service Accounts (IRSA)](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html) to interact with AWS. It going through the Node to use its credentials instead is suspicious
 - **Malware Detection** - we look for many malware filenames and hashes from our threat feeds, including crypto miners such as the **xmrig** here
     - We can even block malware from running, as you'll see later on!
-- **DNS Lookup for Miner Pool Domain Detected**- we look at network traffic (at Layer 3) and when the destination are suspicious things like crypto miner pools or [Tor](https://www.torproject.org/) entry nodes
+- **DNS Lookup for Miner Pool Domain Detected** - we look at network traffic (at Layer 3) and when the destination are suspicious things like crypto miner pools or [Tor](https://www.torproject.org/) entry nodes
 
 And this is only a small sample of the Rules we have out-of-the-box as part of the service!
 
@@ -164,6 +164,6 @@ Please continue to the [Securing the Workload]({{site.baseurl}}/docs/modules/run
 [Next Section ➜ Securing the Workload]({{site.baseurl}}/docs/modules/runtime-threat-detection/runtime-threat-detection-kubernetes/securing-the-workload.html){: .btn }
 
 {: .value }
-> At some point every organzation will experience a breach. While we can do our best to prevent attacks from suceeding, and Sysdig Secure can help achieve compliance to enable that prevention, we also need to be able to detect and respond to breaches quickly.
+> At some point, every organisation will experience a breach. While we can do our best to prevent attacks from succeeding, and Sysdig Secure can help achieve compliance to enable this prevention, we also need to be able to detect and respond to breaches quickly.
 >
-> Sysdig Secure's runtime threat detection enabled real-time detection of attacks, and the ability to take action on them.
+> Sysdig Secure's runtime threat detection enables real-time detection of attacks and the ability to take action.

@@ -5,7 +5,7 @@ nav_order: 2
 ---
 
 {: .goal }
->At the completion of this section, you will have access to your Sysdig Secure account and are able to login to Sysdig Secure and see the Sysdig Secure dashboard.
+>At the end of this section, you will have access to your Sysdig Secure account and will be able to log in to Sysdig Secure and view the Sysdig Secure dashboard.
 
 ## Accessing Your Sysdig Environment
 
@@ -31,6 +31,6 @@ If you see the Customize your Sysdig experience screen, then click the **Get int
 You have now completed the Sysdig environment setup section and have access to your Sysdig Secure account.
 
 {: .value }
->You have now completed the Sysdig environment setup section and have access to your Sysdig Secure account.
+>You have now finished setting up your Sysdig environment and have access to your Sysdig Secure account.
 > 
->Through the Sysdig Secure account you will be able to get visiblity into the security of your clouds and workloads, to visualize the threats and risks, and to manage your policies and compliance, and much more!
+>Through your Sysdig Secure account, you will be able to gain visibility into the security of your clouds and workloads, visualise threats and risks, manage your policies and compliance, and much more!

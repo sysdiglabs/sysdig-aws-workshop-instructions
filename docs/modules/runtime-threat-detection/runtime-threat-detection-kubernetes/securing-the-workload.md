@@ -5,9 +5,9 @@ nav_order: 2
 ---
 
 {: .goal }
-> This section is about how to secure the workload.
+> This section describes how to back up your workload.
 >
-> As well, we will re-run the attack we performed in the previous section, but now with various prevention strategies in place.
+> We will also repeat the attack from the previous section, but now with different prevention strategies in place.
 
 1. TOC
 {:toc}
@@ -147,6 +147,6 @@ Please continue to the [Conclusion]({{site.baseurl}}/docs/modules/runtime-threat
 [Next Section ➜ Conclusion]({{site.baseurl}}/docs/modules/runtime-threat-detection/runtime-threat-detection-kubernetes/conclusion.html){: .btn }
 
 {: .value }
-> In this section we have given you some ideas as to how to secure Kubernetes workloads. Kubernetes is initially a blank slate, and you need to apply security policies to it in order to make it safe to use.
+> In this section, we've given you some ideas on how to secure Kubernetes workloads. Kubernetes is initially a blank slate, and you need to apply security policies to it to make it safe to use.
 >
-> However, a prevention-only strategy is not enough. We need to detect and respond to threats as well.
+> However, a prevention-only strategy is not enough. You also need to detect and respond to threats.

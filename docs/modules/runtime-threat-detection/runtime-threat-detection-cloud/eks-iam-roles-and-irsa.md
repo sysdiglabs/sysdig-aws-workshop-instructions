@@ -5,9 +5,9 @@ nav_order: 2
 ---
 
 {: .goal }
-> Cloud use is complicated, especially now that workloads can have their own identity and permissions. In order to secure our workloads, we have to use tools to understand exactly what permissions they have, and what they, **and attackers**, are doing with them.
+> Using the cloud is complicated, especially now that workloads can have their own identities and permissions. To secure our workloads, we need to use tools to understand exactly what permissions they have and what they, **and attackers**, are doing with them.
 >
->At the completion of this module, you will gain an understanding of how EKS workloads can be overpermissioned with IAM Roles for Service Accounts (IRSA), how that can affect your security posture, and how to detect and prevent this with Sysdig.
+>At the end of this module, you will have an understanding of how EKS workloads can be over-permissioned with IAM Roles for Service Accounts (IRSA), how this can affect your security posture, and how to detect and prevent this with Sysdig.
 
 1. TOC
 {:toc}
@@ -118,6 +118,6 @@ As well, enforcing Container Drift with Sysdig so attacker tools and usefull uti
 You have now completed the Exploiting Overpermissioned EKS Workloads section of this module.
 
 {: .value }
-> - Many workloads will run in a cloud based Kubernetes environment and will have their own identity and permissions. This solves some problems around the use of API keys and other credentials, but it also introduces new security risks.
+> - Many workloads will run in a cloud-based Kubernetes environment and have their own identity and permissions. This solves some issues around the use of API keys and other credentials, but it also introduces new security risks.
 > - Sysdig can help you detect and prevent these risks by providing visibility into the permissions and actions that workloads are taking with their workload identities.
-> - No matter how well we configure our applications, at some point a malicious actor will find a way to exploit them. Sysdig can help you detect and prevent these exploits by providing visibility into the actions that workloads are taking with their workload identities.
+> - No matter how well we configure our applications, a malicious actor will eventually find a way to exploit them. Sysdig can help you detect and prevent these exploits by providing visibility into the actions that workloads are taking with their workload identities.

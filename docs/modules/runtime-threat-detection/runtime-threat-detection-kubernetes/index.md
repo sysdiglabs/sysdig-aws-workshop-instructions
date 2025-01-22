@@ -5,18 +5,18 @@ nav_order: 2
 ---
 
 {: .goal }
-> In this module, we'll be exploring Sysdig's capabilities around detecting **and preventing** runtime threats.
+> In this module we'll explore Sysdig's ability to detect **and prevent** runtime threats.
 >
-> Please note that this is an in-depth, hands-on module. It goes into much detail around not only using Sysdig Secure, but also how to secure Kubernetes workloads.
+> Please note that this is an in-depth, hands-on module. It goes into a lot of detail on not only how to use Sysdig Secure, but also how to secure Kubernetes workloads.
 >
-> There are a few sections to this module:
+> There are several sections to this module:
 >
-> 1. How Sysdig Detects Runtime Threats (the current section)
-> 2. Simulating an Attack on a Kubernetes Workload
-> 3. Securing the Workload
+> 1. How Sysdig detects runtime threats (the current section).
+> 2. Simulating an attack on a Kubernetes workload
+> 3. Securing the workload
 > 4. Conclusion
 >
-> Please set aside 1-2 hours to complete this module.
+> Please allow 1-2 hours to complete this module.
 
 ## Runtime Threat Detection and Prevention for Kubernetes Workloads
 
@@ -58,6 +58,6 @@ From here you can continue to the [Simulating an Attack]({{site.baseurl}}/docs/m
 
 
 {: .value }
-> Sysdig's runtime threat detection capabilities deliver essential business value by:
-> - Using a rules-based approach to detect and prevent common attack patterns in real-time
-> - Providing other ways to detect and prevent threats, such as container drift detection and malware detection
+> Sysdig's runtime threat detection capabilities deliver significant business value by:
+> - Using a rules-based approach to detect and prevent common attack patterns in real time.
+> - Providing additional threat detection and prevention capabilities such as container drift detection and malware detection

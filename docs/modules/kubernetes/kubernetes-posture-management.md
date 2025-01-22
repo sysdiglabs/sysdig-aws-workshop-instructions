@@ -5,7 +5,7 @@ nav_order: 1
 ---
 
 {: .goal}
-> At the end of this module, you will be able to use the Sysdig UI to understand the posture of your Kubernetes/EKS clusters and workloads, as well as how to remediate any misconfigurations.
+> By the end of this module, you will be able to use the Sysdig UI to understand the posture of your Kubernetes/EKS clusters and workloads, and how to fix any misconfigurations.
 
 1. TOC
 {:toc}
@@ -103,5 +103,5 @@ You have now completed the Kubernetes Posture Management module.
 {: .value}
 > - You have now used Sysdig Secure to understand the posture of your Kubernetes/EKS clusters and workloads.
 > - You have seen how we can use the Sysdig UI to understand the posture of your Kubernetes/EKS clusters and workloads.
-> - You have seen how we can use the Sysdig UI to remediate any misconfigurations.
+> - You have seen how we can use the Sysdig UI to fix any misconfigurations.
 > - You could now more easily show your auditors that you are compliant with various standards/benchmarks.

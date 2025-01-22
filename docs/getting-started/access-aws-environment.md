@@ -5,9 +5,9 @@ nav_order: 2
 ---
 
 {: .goal }
->At the completion of this section, you will have access to your AWS environment and all the content you need to complete the workshop.
+>At the end of this section, you will have access to your AWS environment and all the content you need to complete the workshop.
 > 
-> By the end of this section you should have a SMS terminal open to the root user's home directory and be able to run commands to interact with your workshop environment.
+> At the end of this section, you should have an SMS terminal open to the root user's home directory and be able to run commands to interact with your workshop environment.
 
 1. TOC
 {:toc}
@@ -64,6 +64,10 @@ Choose the **Session Manager** tab and then click the **Connect** button.
 
 If you dont see the **Connect** button enabled you are probably trying to access some other attendee's jumpbox.
 
+At this point you should have a terminal window open that you can use to interact with your AWS environment.
+
+!["terminal"]({{site.baseurl}}/assets/images/ssm-terminal.png)
+
 ## Using the Jumpbox Terminal and Accessing the Scripts and Other Content
 
 Once your terminal window opens type the following commands to return to the root user and its home directory:
@@ -90,4 +94,4 @@ You have now completed the AWS environment setup section and have access to your
 > 
 > By accessing the jumpbox with Session Manager, you have access to the root user's home directory in a simple browser-based terminal interface.
 >
-> All of the workshop scripts and content is pre-installed in the root user's home directory.
+> All workshop scripts and content are pre-installed in the root user's home directory.

@@ -5,9 +5,9 @@ nav_order: 1
 ---
 
 {: .goal }
->This learning path is a comprehensive full-day workshop that covers many of the modules in the Kraken Hunter training system.
+>This Learning Path is a comprehensive full-day workshop that covers many of the modules in the Kraken Hunter training system.
 >
->As well, this course ends with a certification exam that will test your knowledge of Sysdig and provide a [certification]({{site.baseurl}}/docs/certification/) that you can share on [Credly](https://www.credly.com/org/sysdig/badge/kraken-hunter).
+>This course also ends with a certification exam that tests your knowledge of Sysdig and provides you with a [certification]({{site.baseurl}}/docs/certification/) that you can share on [Credly](https://www.credly.com/org/sysdig/badge/kraken-hunter).
 
 ## Full-Day Kraken Hunter
 
@@ -30,12 +30,12 @@ In this learning path, you will learn how to use Sysdig to detect and prevent th
 ----
 
 {: .value }
-> At the completion of this workshop, you will will have:
+> At the end of this workshop you will be able to:
 >
-> - Learned how to use Sysdig Secure to detect and prevent threats in your cloud, container, hosts, and other workloads
-> - Gained a deeper understanding of the security challenges of today's clouds and workloads
-> - Seen how Sysdig Secure can help you prioritize and remediate threats and vulnerabilities
+> - Learn how to use Sysdig Secure to detect and prevent threats in your cloud, containers, hosts and other workloads.
+> - Gain a deeper understanding of the security challenges of today's clouds and workloads
+> - See how Sysdig Secure can help you prioritise and remediate threats and vulnerabilities
 > - Discovered the value of Sysdig Secure through direct hands-on use
-> - Run real-world attacker simulations and observed how they work
-> - Obtained the Kraken Hunter certification
-> - And more!
+> - Run real-world attacker simulations and see how they work
+> - Achieve Kraken Hunter certification
+> - And much more!

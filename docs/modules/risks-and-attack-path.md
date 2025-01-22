@@ -5,7 +5,7 @@ nav_order: 4
 ---
 
 {: .goal}
-> At the end of this module, you will be able to use the Sysdig UI to understand the biggest risks in your environment.
+> At the end of this module, you will be able to use the Sysdig interface to understand the biggest risks in your environment.
 
 1. TOC
 {:toc}
@@ -41,5 +41,5 @@ Once we are in the larger Attack Path visualisation we can click on any of the i
 You have now completed the Risks and Attack Path module.
 
 {: .value}
-> - You have now used Sysdig Secure to understand the biggest risks in your environment.
-> - With this information, you can get the best return on investment in terms of what to fix first.
+> You have now used Sysdig Secure to understand the biggest risks in your environment.
+> With this information, you can get the best return on your investment in terms of what to fix first.
