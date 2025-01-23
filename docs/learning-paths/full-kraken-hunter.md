@@ -15,10 +15,10 @@ In this learning path, you will learn how to use Sysdig to detect and prevent th
 
 1. [Getting Started]({{site.baseurl}}/docs/getting-started/)
 2. **Runtime Threat Detection**
-    1. **Runtime Threat Detection - Cloud**
+    1. [Runtime Threat Detection in Kubernetes]({{site.baseurl}}/docs/modules/runtime-threat-detection/runtime-threat-detection-kubernetes/index.html)
+    2. **Runtime Threat Detection - Cloud**
         1. [CloudTrail Detections]({{site.baseurl}}/docs/modules/runtime-threat-detection/runtime-threat-detection-cloud/cloudtrail-detections.html)
         2. [Exploiting Overpermissioned EKS Workloads]({{site.baseurl}}/docs/modules/runtime-threat-detection/runtime-threat-detection-cloud/eks-iam-roles-and-irsa.html)
-    2. [Runtime Threat Detection in Kubernetes]({{site.baseurl}}/docs/modules/runtime-threat-detection/runtime-threat-detection-kubernetes/index.html)
 3. **Vulnerability Management**
     1. [Pipeline Vulnerability Scanning]({{site.baseurl}}/docs/modules/vulnerability-management/pipeline.html)
     2. [Runtime Vulnerability Scanning]({{site.baseurl}}/docs/modules/vulnerability-management/runtime.html)

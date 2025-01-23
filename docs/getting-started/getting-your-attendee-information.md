@@ -52,11 +52,11 @@ Depending on your class, your instructor will let you know which Sysdig region t
 
 Depending on your class, your instructor will let you know which AWS region to use.
 
-  | Account Name | Account ID | Region |
-  |--------------|------------|--------|
-  | sysdig-kraken-hunter-us | 905418274209 | us-west-1 |
-  | sysdig-kraken-hunter-eu | 339712937206 | eu-central-1 |
-  | sysdig-kraken-hunter-ap | 381492038270 | ap-southeast-2 |
+  | Account Name | Account ID | Region | Region Name |
+  |--------------|------------|--------|-------------|
+  | sysdig-kraken-hunter-us | 905418274209 | us-west-1 | US West (N. California) |
+  | sysdig-kraken-hunter-eu | 339712937206 | eu-central-1 | EU (Frankfurt) |
+  | sysdig-kraken-hunter-ap | 381492038270 | ap-southeast-2 | AP (Sydney) |
 
 ## Completed
 
