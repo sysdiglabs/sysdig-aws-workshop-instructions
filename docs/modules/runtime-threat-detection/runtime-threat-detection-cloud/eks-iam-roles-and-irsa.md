@@ -20,7 +20,6 @@ We've prepared an IRSA mapping already - the **irsa** ServiceAccount in the **se
 
 ```bash
 sudo bash; cd ~
-./set-up-irsa.sh
 kubectl get serviceaccount irsa -n security-playground -o yaml
 ```
 
@@ -69,7 +68,7 @@ You'll also note that, if you look at the trust relationships of the IAM Role in
 
 ## The Exploit
 
-If we install the AWS CLI into our container at runtime and run some commands we'll see if our Pod has been assigned an IRSA role and they succeed. There is an **02-01-example-curls-bucket-public.sh** file in `/root` - have a look at it
+If we install the AWS CLI into our container at runtime and run some commands we'll see if our Pod has been assigned an IRSA role and they succeed. There is an **02-01-example-curls-bucket-public.sh** file in `/root`. Have a look at it and run it.
 
 ```bash
 sudo bash; cd ~
@@ -77,19 +76,21 @@ cat 02-01-example-curls-bucket-public.sh
 ./02-01-example-curls-bucket-public.sh
 ```
 
-The install of the AWS CLI succeeds but the S3 changes fail as we don't have that access. We have an updated manifest for the security-playground Deployment that will use this **irsa** ServiceAccount instead of the **default** one we have been using. Apply that by running:
+The install of the AWS CLI succeeds but the S3 changes fail as we don't have that access. We have an updated manifest for the security-playground Deployment that will use this **irsa** ServiceAccount instead of the **default** one we have been using. 
+
+Apply the IRSA ServiceAccount by running:
 
 ```bash
-kubectl apply -f 02-cfg-security-playground-irsa.yaml
+./set-up-irsa.sh
 ```
 
-to apply that change. Now re-run:
+Now re-run the script:
 
 ```bash
 ./02-01-example-curls-bucket-public.sh
 ```
 
-and this time they will work!
+This time they will work!
 
 ## The Sysdig Detections
 
