@@ -16,14 +16,7 @@ nav_order: 2
 
 AWS EKS has a mechanism for giving Pod's access to the AWS APIs called [IAM Roles for Service Accounts (IRSA)](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html). In short, this binds a particular service account in Kubernetes to an IAM Role in AWS - and will automatically mount credentials for using that AWS IAM role into any Pods that use that Kubernetes service account at runtime.
 
-We've prepared an IRSA mapping already - the **irsa** ServiceAccount in the **security-playground** Namespace is bound to an AWS IAM Role that has the `"Action": "s3:*"` policy applied for an S3 bucket for your Attendee in this account. If you run the command below you'll see an Annotation on the ServiceAccount with the ARN of that IAM Role:
-
-```bash
-sudo bash; cd ~
-kubectl get serviceaccount irsa -n security-playground -o yaml
-```
-
-It has the following in-line policy (check the IAM role in the AWS console) - one which we commonly see which is a `*` for the s3 service (really two to cover the bucket itself as well as the contents). It is properly scoped down to a single bucket Resource, which is better than nothing, but you'll see why a `*` for this service is a bad idea.
+In your environment, you will have an IAM role named `irsa-<YOUR_ATTENDEE_ID>` that has the following in-line policy (check the IAM role in the AWS console) - one which we commonly see which is a `*` for the s3 service (really two to cover the bucket itself as well as the contents). It is properly scoped down to a single bucket Resource, which is better than nothing, but you'll see why a `*` for this service is a bad idea.
 
 ```json
 {
@@ -82,6 +75,13 @@ Apply the IRSA ServiceAccount by running:
 
 ```bash
 ./set-up-irsa.sh
+```
+
+Now that we've prepared the IRSA config - the **irsa** ServiceAccount in the **security-playground** Namespace is bound to an AWS IAM Role that has the `"Action": "s3:*"` policy applied for an S3 bucket for your Attendee in this account. If you run the command below you'll see an Annotation on the ServiceAccount with the ARN of that IAM Role:
+
+```bash
+sudo bash; cd ~
+kubectl get serviceaccount irsa -n security-playground -o yaml
 ```
 
 Now re-run the script:
