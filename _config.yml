@@ -30,6 +30,12 @@ callouts:
   warning:
     title: Warning
     color: risk-red-orange
+  command:
+    title: Run this command
+    color: sysdig-black
+  sysdig-gui:
+    title: In the Sysdig GUI
+    color: yellow
 
 back_to_top: true
 back_to_top_text: "Back to top"

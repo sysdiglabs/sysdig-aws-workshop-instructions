@@ -4,7 +4,8 @@ $violet: #AE44C5;       // R174 G68 B197
 $risk-red-orange: #EA5255;  // R234 G82 B85
 $warning-orange: #FFC069;   // R255 G192 B105
 $sysdig-green: #BDF78B;
-
+$sysdig-black: #000000;
+$yellow: #FFD700;
 // Color variations for Just the Docs
 // Alco Blue variations
 $falco-blue-000: lighten($falco-blue, 20%);  // Lighter shade
@@ -35,3 +36,15 @@ $sysdig-green-000: lighten($sysdig-green, 20%);
 $sysdig-green-100: lighten($sysdig-green, 10%);
 $sysdig-green-200: $sysdig-green;
 $sysdig-green-300: darken($sysdig-green, 10%);
+
+// Sysdig Black variations
+$sysdig-black-000: lighten($sysdig-black, 20%);
+$sysdig-black-100: lighten($sysdig-black, 10%);
+$sysdig-black-200: $sysdig-black;
+$sysdig-black-300: darken($sysdig-black, 10%);
+
+// Yellow variations
+$yellow-000: lighten($yellow, 20%);
+$yellow-100: lighten($yellow, 10%);
+$yellow-200: $yellow;
+$yellow-300: darken($yellow, 10%);

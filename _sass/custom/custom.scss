@@ -145,3 +145,15 @@ li {
     z-index: 90;
   }
 }
+
+// Custom Sysdig Green Button
+.btn-sysdig-green {
+  @extend .btn;
+  background-color: $sysdig-green;
+  color: $sysdig-black;
+  
+  &:hover {
+    background-color: $sysdig-green-300;
+    color: $sysdig-black;
+  }
+}

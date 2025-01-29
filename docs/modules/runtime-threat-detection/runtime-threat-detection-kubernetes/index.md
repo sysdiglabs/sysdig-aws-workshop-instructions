@@ -54,7 +54,7 @@ You have completed this section of the module.
 
 From here you can continue to the [Simulating an Attack]({{site.baseurl}}/docs/modules/runtime-threat-detection/runtime-threat-detection-kubernetes/the-attack.html) section.
 
-[Next Section ➜ Simulating an Attack]({{site.baseurl}}/docs/modules/runtime-threat-detection/runtime-threat-detection-kubernetes/the-attack.html){: .btn }
+[Next Section ➜ Simulating an Attack]({{site.baseurl}}/docs/modules/runtime-threat-detection/runtime-threat-detection-kubernetes/the-attack.html){: .btn .btn-sysdig-green }
 
 
 {: .value }

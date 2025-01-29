@@ -144,7 +144,7 @@ You have now completed the Securing the Workload section of this module.
 
 Please continue to the [Conclusion]({{site.baseurl}}/docs/modules/runtime-threat-detection/runtime-threat-detection-kubernetes/conclusion.html) section.
 
-[Next Section ➜ Conclusion]({{site.baseurl}}/docs/modules/runtime-threat-detection/runtime-threat-detection-kubernetes/conclusion.html){: .btn }
+[Next Section ➜ Conclusion]({{site.baseurl}}/docs/modules/runtime-threat-detection/runtime-threat-detection-kubernetes/conclusion.html){: .btn .btn-sysdig-green }
 
 {: .value }
 > In this section, we've given you some ideas on how to secure Kubernetes workloads. Kubernetes is initially a blank slate, and you need to apply security policies to it to make it safe to use.

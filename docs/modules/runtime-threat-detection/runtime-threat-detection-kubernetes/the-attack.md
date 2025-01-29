@@ -161,7 +161,7 @@ You've now seen how Sysdig Secure can detect and prevent runtime threats and com
 
 Please continue to the [Securing the Workload]({{site.baseurl}}/docs/modules/runtime-threat-detection/runtime-threat-detection-kubernetes/securing-the-workload.html) section.
 
-[Next Section ➜ Securing the Workload]({{site.baseurl}}/docs/modules/runtime-threat-detection/runtime-threat-detection-kubernetes/securing-the-workload.html){: .btn }
+[Next Section ➜ Securing the Workload]({{site.baseurl}}/docs/modules/runtime-threat-detection/runtime-threat-detection-kubernetes/securing-the-workload.html){: .btn .btn-sysdig-green }
 
 {: .value }
 > At some point, every organisation will experience a breach. While we can do our best to prevent attacks from succeeding, and Sysdig Secure can help achieve compliance to enable this prevention, we also need to be able to detect and respond to breaches quickly.
