@@ -30,11 +30,11 @@ In this learning path, you will learn how to use Sysdig to detect and prevent th
 ----
 
 {: .value }
-> At the end of this workshop you will be able to:
+> At the end of this workshop you will have:
 >
-> - Learn how to use Sysdig Secure to detect and prevent threats in your cloud, containers, hosts and other workloads.
-> - Gain a deeper understanding of the security challenges of today's clouds and workloads
-> - See how Sysdig Secure can help you prioritise and remediate threats and vulnerabilities
+> - Learned how to use Sysdig Secure to detect, remediate and prevent threats in your cloud, containers, hosts and other workloads.
+> - Gained a deeper understanding of the security challenges of today's clouds and workloads
+> - Seen how Sysdig Secure can help you prioritise and remediate threats and vulnerabilities
 > - Discovered the value of Sysdig Secure through direct hands-on use
 > - Run real-world attacker simulations and see how they work
 > - Achieve Kraken Hunter certification

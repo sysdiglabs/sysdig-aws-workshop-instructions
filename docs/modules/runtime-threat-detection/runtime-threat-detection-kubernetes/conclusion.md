@@ -13,8 +13,6 @@ You have now completed the Runtime Threat Detection in Kubernetes module.
 
 OPTIONAL - Review the [Table Summary]({{site.baseurl}}/docs/modules/runtime-threat-detection/runtime-threat-detection-kubernetes/table-summary.html) section.
 
-[Next Section ➜ Table Summary ]({{site.baseurl}}/docs/modules/runtime-threat-detection/runtime-threat-detection-kubernetes/table-summary.html){: .btn }
-
 {: .value }
 > - Protect your organisation from active threats by detecting and preventing common attack patterns in real-time
 > - Save costs by stopping resource-intensive crypto-mining attacks before they impact your cloud bill
